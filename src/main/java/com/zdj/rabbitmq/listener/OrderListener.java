@@ -2,12 +2,14 @@ package com.zdj.rabbitmq.listener;
 
 import com.rabbitmq.client.Channel;
 import com.zdj.rabbitmq.constant.MQConstant;
+import org.apache.http.client.utils.DateUtils;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.*;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 
 /**
  * @author zhangdanjiang
@@ -25,6 +27,7 @@ public class OrderListener {
             admin = "rabbitAdmin")
     public void onMessage(Message message, Channel channel) {
         String messageStr = new String(message.getBody(), StandardCharsets.UTF_8);
-        System.out.println("接受消息："+ messageStr);
+
+        System.out.println(DateUtils.formatDate(new Date(),"yyyy-MM-dd HH:mm:ss")+"接受消息："+ messageStr);
     }
 }

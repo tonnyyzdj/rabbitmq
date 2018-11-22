@@ -10,11 +10,14 @@ public final class MQConstant {
     //exchange name
     public static final String DEFAULT_EXCHANGE = "zdj-exchange";
 
-    //DLX QUEUE
-    public static final String DEFAULT_DEAD_LETTER_QUEUE_NAME = "zdj.test.dead.letter.queue";
 
-    //DLX repeat QUEUE 死信转发队列
-    public static final String DEFAULT_REPEAT_TRADE_QUEUE_NAME = "zdj.test.repeat.trade.queue";
+    //exchange name DirectExchange
+    public static final String DIRECT_EXCHANGE = "direct-exchange";
+    //DLX QUEUE
+    public static final String DEAD_LETTER_QUEUE_NAME = "zdj.test.dead.letter.queue";
+
+    //DLX repeat QUEUE 死信转发队列 routing-key
+    public static final String REPEAT_TRADE_ROUTING_KEY = "zdj.test.repeat.trade";
 
 
 

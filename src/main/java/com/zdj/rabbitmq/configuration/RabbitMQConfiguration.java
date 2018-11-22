@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.zdj.rabbitmq.constant.MQConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.config.StatelessRetryOperationsInterceptorFactoryBean;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
@@ -18,6 +18,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author zhangdanjiang
@@ -96,4 +99,29 @@ public class RabbitMQConfiguration {
 
         }
     }
+
+
+    //信道配置
+    @Bean
+    public DirectExchange directExchange() {
+        return new DirectExchange(MQConstant.DIRECT_EXCHANGE, true, false);
+    }
+
+    @Bean
+    public Queue deadLetterQueue() {
+        Map<String, Object> arguments = new HashMap<>();
+        arguments.put("x-dead-letter-exchange", MQConstant.DEFAULT_EXCHANGE);
+        arguments.put("x-dead-letter-routing-key", MQConstant.ORDER_ROUTING);
+        Queue queue = new Queue(MQConstant.DEAD_LETTER_QUEUE_NAME,true,false,false,arguments);
+        System.out.println(" deadLetterQueue arguments :" + queue.getArguments());
+        return queue;
+    }
+
+    @Bean
+    public Binding deadLetterBinding() {
+        return BindingBuilder.bind(deadLetterQueue()).to(directExchange()).with(MQConstant.DEAD_LETTER_QUEUE_NAME);
+    }
+
+
+
 }

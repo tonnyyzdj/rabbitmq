@@ -19,4 +19,10 @@ public class MessageQueueServiceTest {
     public void send() {
         messageQueueService.send(MQConstant.ORDER_ROUTING,"order 123");
     }
+
+
+    @Test
+    public void send1() {
+        messageQueueService.send("q1","test",10000l);
+    }
 }
