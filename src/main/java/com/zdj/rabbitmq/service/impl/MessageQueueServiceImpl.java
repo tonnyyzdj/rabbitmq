@@ -29,8 +29,7 @@ public class MessageQueueServiceImpl implements MessageQueueService {
     }
 
     @Override
-    public void send(String queueName, String message, long times) {
-        DLXMessage dlxMessage = new DLXMessage(queueName,message,times);
+    public void send( String message, long times) {
         MessagePostProcessor processor = new MessagePostProcessor(){
             @Override
             public Message postProcessMessage(Message message) throws AmqpException {
@@ -38,9 +37,8 @@ public class MessageQueueServiceImpl implements MessageQueueService {
                 return message;
             }
         };
-        dlxMessage.setExchange(MQConstant.DIRECT_EXCHANGE);
-        rabbitTemplate.convertAndSend(MQConstant.DIRECT_EXCHANGE,MQConstant.DEAD_LETTER_QUEUE_NAME, JSON.toJSONString(dlxMessage), processor);
-        System.out.println("发送延迟消息：message="+message);
+
+        rabbitTemplate.convertAndSend(MQConstant.DIRECT_EXCHANGE,MQConstant.QUEUE_NORMAL_ROUTE, JSON.toJSONString(message), processor);
 
 
     }

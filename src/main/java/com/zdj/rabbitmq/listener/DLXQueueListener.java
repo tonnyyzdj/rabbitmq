@@ -17,13 +17,13 @@ import java.util.Date;
  * @date 2018/11/19
  */
 @Component
-public class OrderListener {
+public class DLXQueueListener {
 
     @RabbitListener(
             bindings = @QueueBinding(
-                    value = @Queue(value = MQConstant.ORDER_QUEUE_NAME, durable = "true"),
+                    value = @Queue(value = MQConstant.DEAD_LETTER_QUEUE_NAME, durable = "true"),
                     exchange = @Exchange(value = MQConstant.DEFAULT_EXCHANGE, type = ExchangeTypes.TOPIC, durable = "true"),
-                    key = MQConstant.ORDER_ROUTING),
+                    key = MQConstant.DEAD_LETTER_QUEUE_ROUTE),
             admin = "rabbitAdmin")
     public void onMessage(Message message, Channel channel) {
         String messageStr = new String(message.getBody(), StandardCharsets.UTF_8);
