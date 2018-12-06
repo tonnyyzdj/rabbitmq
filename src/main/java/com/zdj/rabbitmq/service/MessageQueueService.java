@@ -20,4 +20,11 @@ public interface MessageQueueService {
      */
     public void send(String message,long times);
 
+
+    /**
+     * 消息延时重试发送
+     * @param message 消息内容
+     */
+    public void sendRetry(String message);
+
 }

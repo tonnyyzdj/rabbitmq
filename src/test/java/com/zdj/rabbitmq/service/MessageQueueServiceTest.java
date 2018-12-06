@@ -24,9 +24,18 @@ public class MessageQueueServiceTest {
 
 
     @Test
-    public void send1() {
+    public void delayQueueSend() {
+        //延迟队列测试
         String message = "test";
         messageQueueService.send(message,10000l);
         System.out.println(DateUtils.formatDate(new Date(),"yyyy-MM-dd HH:mm:ss")+"发送延迟消息：message="+message);
+    }
+
+    @Test
+    public void retryQueueSend() {
+        //延迟队列测试
+        String message = "{test}";
+        messageQueueService.sendRetry(message);
+        System.out.println(DateUtils.formatDate(new Date(),"yyyy-MM-dd HH:mm:ss")+"发送重试消息：message="+message);
     }
 }

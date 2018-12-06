@@ -100,6 +100,11 @@ public class RabbitMQConfiguration {
         }
     }
 
+    //信道配置
+    @Bean
+    public TopicExchange defaultExchange() {
+        return new TopicExchange(MQConstant.DEFAULT_EXCHANGE, true, false);
+    }
 
     //信道配置
     @Bean
@@ -107,20 +112,40 @@ public class RabbitMQConfiguration {
         return new DirectExchange(MQConstant.DIRECT_EXCHANGE, true, false);
     }
 
+    //延时队列配置
     @Bean
     public Queue deadLetterQueue() {
         Map<String, Object> arguments = new HashMap<>();
         arguments.put("x-dead-letter-exchange", MQConstant.DEFAULT_EXCHANGE);
         arguments.put("x-dead-letter-routing-key", MQConstant.DEAD_LETTER_QUEUE_ROUTE);
         Queue queue = new Queue(MQConstant.QUEUE_NORMAL,true,false,false,arguments);
-        System.out.println(" deadLetterQueue arguments :" + queue.getArguments());
         return queue;
     }
 
+    //延时队列配置
     @Bean
     public Binding deadLetterBinding() {
         return BindingBuilder.bind(deadLetterQueue()).to(directExchange()).with(MQConstant.QUEUE_NORMAL_ROUTE);
     }
+
+
+//    //重试队列
+//    @Bean
+//    public Queue retryQueue() {
+//        Map<String, Object> arguments = new HashMap<>();
+//        arguments.put("x-dead-letter-exchange", MQConstant.DEFAULT_EXCHANGE);
+//        arguments.put("x-dead-letter-routing-key", MQConstant.WORK_QUEUE_ROUTE);
+//        arguments.put("x-message-ttl", 10 * 1000);
+//        Queue queue = new Queue(MQConstant.RETRY_WORK_QUEUE_NAME,true,false,false,arguments);
+//        return queue;
+//    }
+//
+//    //重试队列绑定
+//    @Bean
+//    public Binding tryDLXQueueBinding() {
+//        return BindingBuilder.bind(retryQueue()).to(defaultExchange()).with(MQConstant.RETRY_WORK_QUEUE_ROUTE);
+//
+//    }
 
 
 

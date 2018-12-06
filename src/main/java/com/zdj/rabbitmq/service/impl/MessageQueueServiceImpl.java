@@ -2,7 +2,6 @@ package com.zdj.rabbitmq.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.zdj.rabbitmq.constant.MQConstant;
-import com.zdj.rabbitmq.message.DLXMessage;
 import com.zdj.rabbitmq.service.MessageQueueService;
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.Message;
@@ -44,4 +43,8 @@ public class MessageQueueServiceImpl implements MessageQueueService {
     }
 
 
+    @Override
+    public void sendRetry(String message) {
+        rabbitTemplate.convertAndSend(MQConstant.DEFAULT_EXCHANGE,MQConstant.WORK_QUEUE_ROUTE, JSON.toJSONString(message));
+    }
 }
