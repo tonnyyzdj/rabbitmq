@@ -2,10 +2,10 @@
 <img src="https://www.processon.com/chart_image/59254a4fe4b0b33567a81dfa.png"/>
 
 通过DLX和TTL实现延迟队列的功能    
-    消息变成死信一般是由于以下几种情况:    
-    消息被拒绝 (Basic.Reject/Basic .Na ck) ，井且设置 requeue 参数为 false;
-    消息过期;
-    令队列达到最大长度。    
+    消息变成死信一般是由于以下几种情况:
+    1.消息被拒绝 (Basic.Reject/Basic .Na ck) ，井且设置 requeue 参数为 false
+    2.消息过期
+    3.令队列达到最大长度  
     生产者首先发送一条携带路由键为 " rk " 的消息，然后经过交换器exchange .normal 顺利地存储到队列 queue.normal 中 。
     由于队列 queue.normal 设置了过期时间为10s ， 在这 10s 内没有消费者消费这条消息，那么判定这条消息为过期。由于设置了 DLX ， 过期
     之时 ，消息被丢给交换器 exchange.dlx 中，这时找到与 exchange.dlx 匹配的队列 queue .dlx ， 最后消息被存储在 queue.dlx 这个死信队列中。
