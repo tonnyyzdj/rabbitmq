@@ -1,7 +1,7 @@
 1.延迟队列Demo  
 <img src="https://www.processon.com/chart_image/59254a4fe4b0b33567a81dfa.png"/>
 
-    通过DLX和TTL实现延迟队列的功能    
+通过DLX和TTL实现延迟队列的功能    
     消息变成死信一般是由于以下几种情况:    
     消息被拒绝 (Basic.Reject/Basic .Na ck) ，井且设置 requeue 参数为 false;
     消息过期;
